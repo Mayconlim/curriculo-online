@@ -1,6 +1,6 @@
 # Passo-a-passo para executar
 1. Baixe e instale o XAMPP
-2. Depois de instalado, copie/mova a pasta do site para dentro da pasta "htdocs" que está dentro da pasta de instalação do XAMPP
+2. Depois de instalado, copie/mova a pasta do site (curriculo-online) para dentro da pasta "htdocs" que está dentro da pasta de instalação do XAMPP
 3. Abra o painel de controle do XAMPP (xampp-control.exe) e clique em start em "Apache" e "MySQL"
 4. Espere até que os dois módulos estejam rodando e depois clique em admin de "MySQL"
 5. Ao abrir a página do phpMyAdmin, crie um novo banco de dados clicando em "Novo" no menu lateral esquerdo
@@ -25,5 +25,5 @@
 ```sql
 insert into registered (name, email, password) values ('João', 'admin@admin.com', '123456');
 ```
-12. Abra o seu navegador, digite a URL: localhost/{nome da pasta do site do passo 2}
+12. Abra o seu navegador, digite a URL: localhost/curriculo-online
 13. Com o site aberto, tente logar com e-mail e senha cadastrados no banco de dados
