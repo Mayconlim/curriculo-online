@@ -1,46 +1,54 @@
-function editarLabel(id){
+function pegar_labels(id){
+    let label = document.getElementById(id);
+    let estado1 = document.getElementById(`estado1-${id}`);
+    let input = document.getElementById(`input-${id}`);
+    let estado2 = document.getElementById(`estado2-${id}`);
+    let form_input = document.getElementById(`form-${id}`);
 
-    //Captura dos elementos que estão no HTML
-    let label = document.getElementById(id); //Pega o elemento h1 ou h6 a partir do id
-    let edit_button = document.getElementById(`button-${id}`); //Pega o elemento Button a partir do id, o que possui o ícone de editar  
+    return [label, estado1, input, estado2, form_input];
+}
 
-    //Criação dos elementos que substituirão os anteriores
-    let input = document.createElement('input'); //Cria o elemento Input
-    input.className = "form-control me-1" //Coloca o estilo Bootstrap no elemento
-    input.value = label.innerHTML; //Coloca o valor do label no valor do input
+function editar_label(id, action){
+    let [label, estado1, input, estado2, form_input] = pegar_labels(id);
 
-    let confirm_button = document.createElement('button'); //Cria o elemento Button
-    let confirm_icon = document.createElement('i'); //Cria o elemento I, o ícone
-    confirm_button.className = "btn btn-success btn-lg me-1"; //Coloca o estilo Bootstrap no elemento, botão large e success
-    confirm_button.onclick = function () {
+    if(action == "save"){
         label.innerHTML = input.value;
-        input.parentNode.replaceChild(label, input);
-        
-        cancel_button.parentNode.removeChild(confirm_button);
-
-        cancel_button.parentNode.replaceChild(edit_button, cancel_button);
+        form_input.value = input.value;
+    } else{
+        input.value = label.innerHTML;
+        form_input.value = label.innerHTML;
     }
-    confirm_icon.className = "bi bi-check-circle"; //Coloca o estilo Bootstrap no elemento, o ícone de confirmação
-    confirm_button.appendChild(confirm_icon); //insere o ícone de confirmação dentro do button success
 
-    let cancel_button = document.createElement('button');
-    let cancel_icon = document.createElement('icon');
-    cancel_button.className = "btn btn-outline-danger btn-lg";
-    cancel_button.onclick = function () {
-        input.parentNode.replaceChild(label, input);
-        
-        cancel_button.parentNode.removeChild(confirm_button);
-
-        cancel_button.parentNode.replaceChild(edit_button, cancel_button);
+    if(action == "cancel" || action == "save"){
+        estado1.classList.replace("d-none", "d-flex");
+        estado2.classList.replace("d-flex", "d-none");
+    }else{
+        estado1.classList.replace("d-flex", "d-none");
+        estado2.classList.replace("d-none", "d-flex");
     }
-    cancel_icon.className = "bi bi-x-circle";
-    cancel_button.appendChild(cancel_icon);
+}
 
-    //Substituição de elementos
-    label.parentNode.replaceChild(input, label); //troca o h1 ou h6 pelo input 
+function mensagem_modal(type){
+    let modal_body = document.getElementsByClassName("modal-body")[0];
+    let modal_button_submit = document.getElementById("modal-button-submit");
+    let form_action = document.getElementById("form-action");
 
-    edit_button.parentNode.insertBefore(confirm_button, edit_button);//insere o botão de confirmação antes do botão de editar
-
-    edit_button.parentNode.replaceChild(cancel_button, edit_button); //troca o botão com o ícone de editar pelo botão com o ícone de cancelar
-
+    if(type == "deletar"){
+        modal_body.innerHTML = "Tem certeza que você realmente quer excluir essa conta?";
+        modal_button_submit.innerHTML = "Deletar";
+        modal_button_submit.classList.length < 2?
+            modal_button_submit.classList.add("btn-danger")
+            :
+            modal_button_submit.classList.replace("btn-success", "btn-danger");
+        form_action.value = "deletar";
+    } else if (type == "salvar"){
+        modal_body.innerHTML = `Tem certeza que deseja salvar as alterações?<br>
+        <strong>Os dados anteriores serão sobreescritos e não poderão ser recuperados</strong>.`;
+        modal_button_submit.innerHTML = "Salvar";
+        modal_button_submit.classList.length < 2?
+            modal_button_submit.classList.add("btn-success")
+            :
+            modal_button_submit.classList.replace("btn-danger", "btn-success");
+        form_action.value = "salvar";
+    }
 }
